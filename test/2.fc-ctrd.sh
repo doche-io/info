@@ -11,6 +11,7 @@ cd firecracker-containerd
   make firecracker
   make install-firecracker
   make image
+  make demo-network
   mkdir -p /var/lib/firecracker-containerd/runtime
   cp tools/image-builder/rootfs.img /var/lib/firecracker-containerd/runtime/default-rootfs.img
 cd ..
