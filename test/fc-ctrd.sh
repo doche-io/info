@@ -4,7 +4,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 add-apt-repository ppa:longsleep/golang-backports
 apt update
-apt install -y docker-ce docker-ce-cli containerd.io golang build-essential
+apt install -y docker-ce docker-ce-cli containerd.io golang build-essential apt-utils
 curl -fsSL -o hello-vmlinux.bin https://s3.amazonaws.com/spec.ccfc.min/img/quickstart_guide/x86_64/kernels/vmlinux.bin
 git clone --recurse-submodules https://github.com/firecracker-microvm/firecracker-containerd
   cd firecracker-containerd
