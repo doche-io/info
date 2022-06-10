@@ -14,7 +14,8 @@ cd firecracker-containerd
   mkdir -p /var/lib/firecracker-containerd/runtime
   cp tools/image-builder/rootfs.img /var/lib/firecracker-containerd/runtime/default-rootfs.img
 cd ..
-cat <<EOF > ./config.toml
+mkdir -p /var/lib/firecracker-containerd
+cat <<EOF > /var/lib/firecracker-containerd/config.toml
 version = 2
 disabled_plugins = ["io.containerd.grpc.v1.cri"]
 root = "/var/lib/firecracker-containerd/containerd"
@@ -29,6 +30,18 @@ state = "/run/firecracker-containerd"
 
 [debug]
   level = "debug"
+EOF
+cat <<EOF > /etc/containerd/firecracker-runtime.json
+{
+  "firecracker_binary_path": "/usr/local/bin/firecracker",
+  "kernel_image_path": "/var/lib/firecracker-containerd/runtime/hello-vmlinux.bin",
+  "kernel_args": "console=ttyS0 noapic reboot=k panic=1 pci=off nomodules ro systemd.unified_cgroup_hierarchy=0 systemd.journald.forward_to_console systemd.unit=firecracker.target init=/sbin/overlay-init",
+  "root_drive": "/var/lib/firecracker-containerd/runtime/default-rootfs.img",
+  "cpu_template": "T2",
+  "log_fifo": "fc-logs.fifo",
+  "log_levels": ["debug"],
+  "metrics_fifo": "fc-metrics.fifo"
+}
 EOF
 #!/bin/bash
 
@@ -71,16 +84,3 @@ echo "${THINP_TABLE}"
 if ! $(dmsetup reload "${POOL}" --table "${THINP_TABLE}"); then
 dmsetup create "${POOL}" --table "${THINP_TABLE}"
 fi
-cat <<EOF > /etc/containerd/firecracker-runtime.json
-{
-  "firecracker_binary_path": "/usr/local/bin/firecracker",
-  "kernel_image_path": "/var/lib/firecracker-containerd/runtime/hello-vmlinux.bin",
-  "kernel_args": "console=ttyS0 noapic reboot=k panic=1 pci=off nomodules ro systemd.unified_cgroup_hierarchy=0 systemd.journald.forward_to_console systemd.unit=firecracker.target init=/sbin/overlay-init",
-  "root_drive": "/var/lib/firecracker-containerd/runtime/default-rootfs.img",
-  "cpu_template": "T2",
-  "log_fifo": "fc-logs.fifo",
-  "log_levels": ["debug"],
-  "metrics_fifo": "fc-metrics.fifo"
-}
-EOF
-mkdir -p /var/lib/firecracker-containerd
