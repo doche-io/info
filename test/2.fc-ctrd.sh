@@ -1,11 +1,9 @@
 curl -fsSL -o hello-vmlinux.bin https://s3.amazonaws.com/spec.ccfc.min/img/quickstart_guide/x86_64/kernels/vmlinux.bin
-apt install -y ca-certificates curl gnupg lsb-release build-essential make
+apt install -y ca-certificates curl gnupg lsb-release build-essential make golang
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt update
 apt-get install -y docker-ce docker-ce-cli containerd.io
-rm -rf /usr/local/go && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
-export PATH=$PATH:/usr/local/go/bin
 git clone --recurse-submodules https://github.com/firecracker-microvm/firecracker-containerd
 cd firecracker-containerd
   make all
