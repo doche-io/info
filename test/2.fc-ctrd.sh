@@ -41,6 +41,14 @@ cat <<EOF > /etc/containerd/firecracker-runtime.json
   "log_fifo": "fc-logs.fifo",
   "log_levels": ["debug"],
   "metrics_fifo": "fc-metrics.fifo"
+  "default_network_interfaces": [
+    {
+      "CNIConfig": {
+        "NetworkName": "fcnet",
+        "InterfaceName": "veth0"
+      }
+    }
+  ]
 }
 EOF
 #!/bin/bash
