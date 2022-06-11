@@ -62,7 +62,7 @@ set -ex
 
 DIR=/var/lib/firecracker-containerd/snapshotter/devmapper
 POOL=fc-dev-thinpool
-
+mkdir -p $DIR
 if [[ ! -f "${DIR}/data" ]]; then
 touch "${DIR}/data"
 truncate -s 100G "${DIR}/data"
