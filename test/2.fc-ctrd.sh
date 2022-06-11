@@ -16,8 +16,8 @@ cd firecracker-containerd
   mkdir -p /var/lib/firecracker-containerd/runtime
   cp tools/image-builder/rootfs.img /var/lib/firecracker-containerd/runtime/default-rootfs.img
 cd ..
-mkdir -p /var/lib/firecracker-containerd
-cat <<EOF > /var/lib/firecracker-containerd/config.toml
+mkdir -p /etc/firecracker-containerd
+cat <<EOF > /etc/firecracker-containerd/config.toml
 version = 2
 disabled_plugins = ["io.containerd.grpc.v1.cri"]
 root = "/var/lib/firecracker-containerd/containerd"
